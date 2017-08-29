@@ -14,38 +14,26 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const router = express.Router();
 require("reflect-metadata");
-const typeorm_1 = require("typeorm");
 const User_1 = require("../DAL/Entity/User");
+const SQLDAL_1 = require("../DAL/SQLDAL");
 router.get('/', (req, res) => {
     let oUser = new User_1.User();
-    oUser.ID = "0001";
+    oUser.ID = "0002";
     oUser.FullName = "Tester";
     var CurTime = new Date(Date.now());
     oUser.FullName = CurTime.toLocaleString();
     oUser.CreateTime = new Date(Date.now());
     oUser.UpdateTime = new Date(Date.now());
-    var Connection = "localhost";
-    //console.log(Connection);
-    typeorm_1.createConnection({
-        type: "mssql",
-        host: Connection,
-        port: 1433,
-        username: "Development",
-        password: "P@ssw0rd",
-        database: "Development",
-        entities: [User_1.User],
-        autoSchemaSync: true
-    }).then((connection) => __awaiter(this, void 0, void 0, function* () {
-        let UserRepository = connection.getRepository(User_1.User);
-        yield UserRepository.save(oUser);
-        let savedUser = yield UserRepository.find();
-        savedUser.forEach(Item => { res.render('index', { title: Item.FullName }); });
-        yield connection.close();
-    })).catch(error => {
-        res.render('error', { error: error });
-    }
-    //console.log(error)
-    );
-    //res.render('index', { title: 'ABC' });
+    SQLDAL_1.Update(oUser, function (Repository) {
+        return __awaiter(this, void 0, void 0, function* () {
+            yield Repository.save(oUser);
+            let ItemList = yield Repository.find();
+            var Title = "";
+            ItemList.forEach(Item => {
+                Title += Item.FullName + " ";
+            });
+            res.render('index', { title: Title });
+        });
+    });
 });
 exports.default = router;
