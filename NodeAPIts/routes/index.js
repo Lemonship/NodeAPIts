@@ -9,7 +9,7 @@ require("reflect-metadata");
 var typeorm_1 = require("typeorm");
 var User_1 = require("../DAL/entity/User");
 router.get('/', function (req, res) {
-    var Connection = "localhost\\sqlexpress";
+    var Connection = "localhost";
     console.log(Connection);
     typeorm_1.createConnection({
         type: "mssql",

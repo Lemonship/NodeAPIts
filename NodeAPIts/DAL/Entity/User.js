@@ -13,13 +13,13 @@ var User = (function () {
     return User;
 }());
 __decorate([
-    typeorm_1.PrimaryColumn("string")
+    typeorm_1.PrimaryColumn("nvarchar")
 ], User.prototype, "ID");
 __decorate([
-    typeorm_1.Column()
+    typeorm_1.Column("nvarchar")
 ], User.prototype, "FullName");
 __decorate([
-    typeorm_1.Column()
+    typeorm_1.Column("datetime")
 ], User.prototype, "CreateTime");
 User = __decorate([
     typeorm_1.Entity()

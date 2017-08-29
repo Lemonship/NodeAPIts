@@ -2,10 +2,10 @@
 
 @Entity()
 export class User {
-    @PrimaryColumn("string")
+    @PrimaryColumn("nvarchar")
     ID: string;
-    @Column()
+    @Column("nvarchar")
     FullName: string;
-    @Column()
+    @Column("datetime")
     CreateTime: Date;
 }

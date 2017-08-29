@@ -9,7 +9,7 @@ import { User } from "../DAL/entity/User";
 
 router.get('/', (req: express.Request, res: express.Response) => {
 
-    var Connection: string = "localhost\\sqlexpress";
+    var Connection: string = "localhost";
     console.log(Connection);
     createConnection({
         type: "mssql",
