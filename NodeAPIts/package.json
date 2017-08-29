@@ -1,0 +1,21 @@
+{
+  "name": "node-apits",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "description": "NodeAPIts",
+  "author": {
+    "name": "kenneth_tse"
+  },
+  "main": "app.js",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.14.0",
+    "mssql": "^4.0.4",
+    "pug": "^2.0.0-beta6",
+    "reflect-metadata": "^0.1.10",
+    "typeorm": "0.1.0-alpha.35"
+  }
+}
