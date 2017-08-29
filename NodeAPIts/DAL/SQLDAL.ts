@@ -1,9 +1,9 @@
 ﻿import "reflect-metadata";
 import { createConnection } from "typeorm";
-import { User } from "../DAL/Entity/User";
+//import { User } from "../DAL/Entity/User";
 
 //export class DB {
-    export async function Update(instance : User, response : Function) {
+    export async function Update(instance, response : Function) {
         createConnection({
             type: "mssql",
             host: "localhost",
@@ -11,11 +11,12 @@ import { User } from "../DAL/Entity/User";
             username: "Development",
             password: "P@ssw0rd",
             database: "Development",
-            entities: [User],
+            entities: [__dirname + "/Entity/*.js"],
             autoSchemaSync: true
         }).then(async connection => {
-            let UserRepository = connection.getRepository(instance.constructor.name);
-            await response(UserRepository);
+            let Repository = connection.getRepository(instance.constructor.name);
+            //let DBManager = connection.manager;
+            await response(Repository);
             await connection.close();
 
         }).catch(error => {

@@ -1,12 +1,4 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 /*
  * GET home page.
@@ -24,16 +16,15 @@ router.get('/', (req, res) => {
     oUser.FullName = CurTime.toLocaleString();
     oUser.CreateTime = new Date(Date.now());
     oUser.UpdateTime = new Date(Date.now());
-    SQLDAL_1.Update(oUser, function (Repository) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield Repository.save(oUser);
-            let ItemList = yield Repository.find();
-            var Title = "";
-            ItemList.forEach(Item => {
-                Title += Item.FullName + " ";
-            });
-            res.render('index', { title: Title });
-        });
+    SQLDAL_1.Update(oUser, async function (Repository) {
+        await Repository.save(oUser);
+        var Title = "";
+        let ItemList = await Repository.findOneById("0002");
+        Title = ItemList.ID;
+        //ItemList.forEach(Item => {
+        //    Title += Item.ID + " ";
+        //})
+        res.render('index', { title: Title });
     });
 });
 exports.default = router;

@@ -3,7 +3,7 @@
     "experimentalDecorators": true, //silences the error
     //"lib": [ "es2017" ],
     "module": "commonjs",
-    "target": "es2015",
+    "target": "es2017",
     "noImplicitAny": false,
     "sourceMap": false
   //"allowJs": true, // includes .js files (not just .ts)
