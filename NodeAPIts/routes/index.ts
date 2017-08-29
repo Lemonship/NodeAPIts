@@ -5,12 +5,21 @@ import express = require('express');
 const router = express.Router();
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import { User } from "../DAL/entity/User";
+import { User } from "../DAL/Entity/User";
 
 router.get('/', (req: express.Request, res: express.Response) => {
 
+
+    let oUser = new User();
+    oUser.ID = "0001";
+    oUser.FullName = "Tester";
+    var CurTime: Date = new Date(Date.now());
+    oUser.FullName = CurTime.toLocaleString();
+    oUser.CreateTime = new Date(Date.now());
+    oUser.UpdateTime = new Date(Date.now());
+
     var Connection: string = "localhost";
-    console.log(Connection);
+    //console.log(Connection);
     createConnection({
         type: "mssql",
         host: Connection,
@@ -18,28 +27,19 @@ router.get('/', (req: express.Request, res: express.Response) => {
         username: "Development",
         password: "P@ssw0rd",
         database: "Development",
-        entities: [
-            User
-        ],
+        entities: [User],
         autoSchemaSync: true
-    }).then(connection => {
-
-        let oUser = new User();
-        oUser.ID = "0001";
-        oUser.FullName = "Tester";
-        oUser.CreateTime = new Date(Date.now());
-
-        return connection.manager
-            .save(User)
-            .then(Item => {
-                res.render('index', { title: "User" });
-                //console.log("User has been saved");
-            });
-
-        }).catch(error => { res.render('error', { error: error })}
-            //console.log(error)
-        );
-    //res.render('index', { title: 'ABC' });
+    }).then(async connection => {
+        let UserRepository = connection.getRepository(User);
+        await UserRepository.save(oUser);
+        
+        let savedUser = await UserRepository.find();
+        savedUser.forEach(Item => { res.render('index', { title: Item.FullName }); })
+        await connection.close();
+    }).catch(error => {
+        res.render('error', { error: error });
+    }
+    );
 });
 
 export default router;

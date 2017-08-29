@@ -1,16 +1,31 @@
 "use strict";
-exports.__esModule = true;
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
  * GET home page.
  */
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 require("reflect-metadata");
-var typeorm_1 = require("typeorm");
-var User_1 = require("../DAL/entity/User");
-router.get('/', function (req, res) {
+const typeorm_1 = require("typeorm");
+const User_1 = require("../DAL/Entity/User");
+router.get('/', (req, res) => {
+    let oUser = new User_1.User();
+    oUser.ID = "0001";
+    oUser.FullName = "Tester";
+    var CurTime = new Date(Date.now());
+    oUser.FullName = CurTime.toLocaleString();
+    oUser.CreateTime = new Date(Date.now());
+    oUser.UpdateTime = new Date(Date.now());
     var Connection = "localhost";
-    console.log(Connection);
+    //console.log(Connection);
     typeorm_1.createConnection({
         type: "mssql",
         host: Connection,
@@ -18,24 +33,19 @@ router.get('/', function (req, res) {
         username: "Development",
         password: "P@ssw0rd",
         database: "Development",
-        entities: [
-            User_1.User
-        ],
+        entities: [User_1.User],
         autoSchemaSync: true
-    }).then(function (connection) {
-        var oUser = new User_1.User();
-        oUser.ID = "0001";
-        oUser.FullName = "Tester";
-        oUser.CreateTime = new Date(Date.now());
-        return connection.manager
-            .save(User_1.User)
-            .then(function (Item) {
-            res.render('index', { title: "User" });
-            //console.log("User has been saved");
-        });
-    })["catch"](function (error) { res.render('error', { error: error }); }
+    }).then((connection) => __awaiter(this, void 0, void 0, function* () {
+        let UserRepository = connection.getRepository(User_1.User);
+        yield UserRepository.save(oUser);
+        let savedUser = yield UserRepository.find();
+        savedUser.forEach(Item => { res.render('index', { title: Item.FullName }); });
+        yield connection.close();
+    })).catch(error => {
+        res.render('error', { error: error });
+    }
     //console.log(error)
     );
     //res.render('index', { title: 'ABC' });
 });
-exports["default"] = router;
+exports.default = router;

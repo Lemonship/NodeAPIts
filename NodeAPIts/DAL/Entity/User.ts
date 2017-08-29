@@ -8,4 +8,6 @@ export class User {
     FullName: string;
     @Column("datetime")
     CreateTime: Date;
+    @Column("datetime")
+    UpdateTime: Date;
 }
