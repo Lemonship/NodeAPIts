@@ -5,7 +5,7 @@ const typeorm_1 = require("typeorm");
 //import { User } from "../DAL/Entity/User";
 class DBORM {
     ORM(instance, response) {
-        typeorm_1.createConnection({
+        var Result = typeorm_1.createConnection({
             type: "mssql",
             host: "localhost",
             port: 1433,
@@ -16,13 +16,13 @@ class DBORM {
             autoSchemaSync: true
         }).then(async (connection) => {
             let Repository = connection.getRepository(instance.constructor.name);
-            //let DBManager = connection.manager;
-            await response(Repository);
-            await connection.close();
+            Result = await response(Repository);
+            return Result;
         }).catch(error => {
             //res.render('error', { error: error });
             console.debug(error);
         });
+        return Result;
     }
 }
 exports.DBORM = DBORM;

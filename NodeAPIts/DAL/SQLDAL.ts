@@ -3,8 +3,8 @@ import { createConnection } from "typeorm";
 //import { User } from "../DAL/Entity/User";
 
 export class DBORM {
-    ORM(instance, response : Function) {
-        createConnection({
+    ORM(instance, response: Function) {
+        var Result = createConnection({
             type: "mssql",
             host: "localhost",
             port: 1433,
@@ -15,13 +15,12 @@ export class DBORM {
             autoSchemaSync: true
         }).then(async connection => {
             let Repository = connection.getRepository(instance.constructor.name);
-            //let DBManager = connection.manager;
-            await response(Repository);
-            await connection.close();
-
+            Result = await response(Repository);
+            return Result;
         }).catch(error => {
             //res.render('error', { error: error });
             console.debug(error);
-        });
+            });
+        return Result;
     }
 }
