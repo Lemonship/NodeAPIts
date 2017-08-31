@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
-//import { User } from "../DAL/Entity/User";
 class DBORM {
     ORM(instance, response) {
         var Result = typeorm_1.createConnection({
@@ -23,6 +22,18 @@ class DBORM {
             console.debug(error);
         });
         return Result;
+    }
+    ;
+    async GetByID(EntityClass, ID) {
+        var instance = new EntityClass();
+        var Result = await this.ORM(instance, async (Repository) => {
+            var tResult = await Repository.findOneById(ID);
+            return tResult;
+        });
+        return Result;
+    }
+    factory(type) {
+        return new type();
     }
 }
 exports.DBORM = DBORM;

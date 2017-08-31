@@ -1,9 +1,9 @@
 ﻿import "reflect-metadata";
-import { createConnection } from "typeorm";
-//import { User } from "../DAL/Entity/User";
+import { createConnection, getEntityManager, Repository } from "typeorm";
+import { User } from "../DAL/Entity/User";
 
 export class DBORM {
-    ORM(instance, response: Function) {
+    ORM<EntityClass>(instance, response: Function) {
         var Result = createConnection({
             type: "mssql",
             host: "localhost",
@@ -22,5 +22,18 @@ export class DBORM {
             console.debug(error);
             });
         return Result;
+    };
+
+    async GetByID<EntityClass>(EntityClass, ID): Promise<EntityClass>{
+        var instance: EntityClass = new EntityClass();
+        var Result = await this.ORM(instance, async (Repository: Repository<EntityClass>) => {
+            var tResult = await Repository.findOneById(ID);
+            return tResult;
+        });
+        return Result;
     }
+    factory<T>(type: { new (): T }): T {
+        return new type();
+    }
+
 }

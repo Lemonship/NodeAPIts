@@ -25,26 +25,16 @@ router.get('/', async (req: express.Request, res: express.Response) => {
         var Result = await Repository.findOneById("0002")
         return Result.ID;
     }
-    
+    //var sUser1 = await ORM.ORM(oUser, GetUser);
+
 
     //ORM.ORM(oUser, async function (Repository: Repository<User>) {
     //    await Repository.save(oUser);
     //});
 
-    var sUser1 = await ORM.ORM(oUser, GetUser);
-    res.render('index', { title: sUser1 });
+    var sUser1 = await ORM.GetByID<User>(User, "0002");
+    res.render('index', { title: sUser1.ID });
 
-    //ORM.ORM(oUser, function (Repository: Repository<User>) {
-    //    return new Promise(async function (resolve, reject) {
-    //        Repository.findOneById("0002").then
-    //            (Result => {
-    //                var ItemList = ItemList.ID;
-    //                resolve(Title);}
-    //            );
-
-    //    });
-    //});
-    
 
     //ORM.ORM(oUser, async function (Repository: Repository<User>) {
     //    var sResult: string = "";
