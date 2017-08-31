@@ -2,8 +2,8 @@
 import { createConnection } from "typeorm";
 //import { User } from "../DAL/Entity/User";
 
-//export class DB {
-    export async function Update(instance, response : Function) {
+export class DBORM {
+    ORM(instance, response : Function) {
         createConnection({
             type: "mssql",
             host: "localhost",
@@ -22,7 +22,6 @@ import { createConnection } from "typeorm";
         }).catch(error => {
             //res.render('error', { error: error });
             console.debug(error);
-        }
-            );
+        });
     }
-//}
+}
