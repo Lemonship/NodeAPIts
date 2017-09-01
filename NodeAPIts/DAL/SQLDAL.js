@@ -52,5 +52,15 @@ class DBORM {
             await Repository.save(instance);
         });
     }
+    async Delete(instance) {
+        await this.ORM(instance, async function (Repository) {
+            await Repository.remove(instance);
+        });
+    }
+    async DeleteByID(instance, ID) {
+        await this.ORM(instance, async function (Repository) {
+            await Repository.removeById(ID);
+        });
+    }
 }
 exports.DBORM = DBORM;

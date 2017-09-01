@@ -8,6 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 let User = class User {
+    constructor() {
+        this.ID = "";
+        this.FullName = "";
+        this.CreateTime = new Date(Date.now());
+        this.UpdateTime = new Date(Date.now());
+    }
 };
 __decorate([
     typeorm_1.PrimaryColumn("nvarchar")

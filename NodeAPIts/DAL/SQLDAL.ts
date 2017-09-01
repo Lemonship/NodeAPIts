@@ -1,6 +1,6 @@
 ﻿import "reflect-metadata";
 import { createConnection, getEntityManager, Repository } from "typeorm";
-import { User } from "../DAL/Entity/User";
+import { User } from "../DAL/Entity/UserEntity";
 
 export interface Entities {
     
@@ -47,7 +47,6 @@ export class DBORM {
     async GetByID<T extends Entities>(instance:T, ID): Promise<T>{
         var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
             var tResult = await Repository.findOneById(ID);
-
             return tResult;
         });
         return Result;
@@ -55,6 +54,16 @@ export class DBORM {
     async Merge<T extends Entities>(instance:T) {
         await this.ORM(instance, async function (Repository: Repository<T>) {
             await Repository.save(instance);
+        });
+    }
+    async Delete<T extends Entities>(instance: T) {
+        await this.ORM(instance, async function (Repository: Repository<T>) {
+            await Repository.remove(instance);
+        });
+    }
+    async DeleteByID<T extends Entities>(instance: T, ID) {
+        await this.ORM(instance, async function (Repository: Repository<T>) {
+            await Repository.removeById(ID);
         });
     }
 }

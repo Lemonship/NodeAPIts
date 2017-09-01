@@ -3,7 +3,7 @@ import express = require('express');
 import path = require('path');
 
 import routes from './routes/index';
-import users from './routes/user';
+import users from './routes/Users';
 import api from './routes/api';
 
 var app = express();
@@ -14,8 +14,16 @@ app.set('view engine', 'pug');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+var bodyParser = require('body-parser')
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+
+//app.use('/', routes);
+app.use('/', users);
 app.use('/api', api);
 
 // catch 404 and forward to error handler
@@ -48,6 +56,8 @@ app.use((err: any, req, res, next) => {
         error: {}
     });
 });
+
+
 
 app.set('port', process.env.PORT || 3000);
 
