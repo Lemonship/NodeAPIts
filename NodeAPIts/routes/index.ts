@@ -14,26 +14,22 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 
     let oUser = new User();
     oUser.ID = "0003";
-    oUser.FullName = "Tester";
+    oUser.FullName = "Tester3";
     var CurTime: Date = new Date(Date.now());
-    oUser.FullName = CurTime.toLocaleString();
-    oUser.CreateTime = new Date(Date.now());
-    oUser.UpdateTime = new Date(Date.now());
+    oUser.FullName = oUser.FullName + " " + CurTime.toLocaleString();
     var Title = "";
 
     async function GetUser(Repository: Repository<User>) {
         var Result = await Repository.findOneById("0002")
         return Result.ID;
     }
-    //var sUser1 = await ORM.ORM(oUser, GetUser);
-
-
-    //ORM.ORM(oUser, async function (Repository: Repository<User>) {
-    //    await Repository.save(oUser);
-    //});
-
-    var sUser1 = await ORM.GetByID<User>(User, "0002");
-    res.render('index', { title: sUser1.ID });
+    //===================================
+    await ORM.Merge<User>(oUser);
+    //===================================
+    var sUser1 = await ORM.GetByID<User>(new User(), oUser.ID);
+    //===================================
+    res.render('index', { title: sUser1.FullName });
+    //===================================
 
 
     //ORM.ORM(oUser, async function (Repository: Repository<User>) {

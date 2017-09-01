@@ -2,6 +2,12 @@
 import { Entities } from "../SQLDAL";
 @Entity()
 export class User implements Entities {
+
+    //constructor() {
+    //    this.ID = "";
+    //    this.CreateTime = new Date(Date.now());
+    //    this.UpdateTime = new Date(Date.now());
+    //}
     @PrimaryColumn("nvarchar")
     ID: string;
     @Column("nvarchar")
@@ -10,4 +16,6 @@ export class User implements Entities {
     CreateTime: Date;
     @Column("datetime")
     UpdateTime: Date;
+
+
 }

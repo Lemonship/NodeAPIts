@@ -12,22 +12,32 @@ router.get('/', async (req, res) => {
     var ORM = new SQLDAL_1.DBORM();
     let oUser = new User_1.User();
     oUser.ID = "0003";
-    oUser.FullName = "Tester";
+    oUser.FullName = "Tester3";
     var CurTime = new Date(Date.now());
-    oUser.FullName = CurTime.toLocaleString();
-    oUser.CreateTime = new Date(Date.now());
-    oUser.UpdateTime = new Date(Date.now());
+    oUser.FullName = oUser.FullName + " " + CurTime.toLocaleString();
     var Title = "";
     async function GetUser(Repository) {
         var Result = await Repository.findOneById("0002");
         return Result.ID;
     }
-    //var sUser1 = await ORM.ORM(oUser, GetUser);
-    //ORM.ORM(oUser, async function (Repository: Repository<User>) {
-    //    await Repository.save(oUser);
+    ////===================================
+    //var sUser1;
+    //var Result = ORM.Merge<User>(oUser).then(async Result=>
+    //    {
+    //    sUser1 = await ORM.GetByID<User>(new User(), oUser.ID);
+    //    res.render('index', { title: sUser1.FullName });
     //});
-    var sUser1 = await ORM.GetByID(User_1.User, "0002");
-    res.render('index', { title: sUser1.ID });
+    //var sUser1 = await ORM.GetByID<User>(new User(), oUser.ID);
+    ////===================================
+    //res.render('index', { title: sUser1.FullName });
+    //===================================
+    //===================================
+    await ORM.Merge(oUser);
+    //===================================
+    var sUser1 = await ORM.GetByID(new User_1.User(), oUser.ID);
+    //===================================
+    res.render('index', { title: sUser1.FullName });
+    //===================================
     //ORM.ORM(oUser, async function (Repository: Repository<User>) {
     //    var sResult: string = "";
     //    await Repository.save(oUser);

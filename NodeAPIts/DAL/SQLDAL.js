@@ -16,6 +16,7 @@ class DBORM {
         }).then(async (connection) => {
             let Repository = connection.getRepository(instance.constructor.name);
             Result = await response(Repository);
+            await connection.close();
             return Result;
         }).catch(error => {
             //res.render('error', { error: error });
@@ -24,16 +25,19 @@ class DBORM {
         return Result;
     }
     ;
-    async GetByID(EntityClass, ID) {
-        var instance = new EntityClass();
+    async GetByID(instance, ID) {
+        //var Item: Base<T> ;
+        //instance = new Item();
         var Result = await this.ORM(instance, async (Repository) => {
             var tResult = await Repository.findOneById(ID);
             return tResult;
         });
         return Result;
     }
-    factory(type) {
-        return new type();
+    async Merge(instance) {
+        await this.ORM(instance, async function (Repository) {
+            await Repository.save(instance);
+        });
     }
 }
 exports.DBORM = DBORM;
