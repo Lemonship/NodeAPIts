@@ -5,8 +5,14 @@ import { User } from "../DAL/Entity/User";
 export interface Entities {
     
 }
-interface Base<T extends Entities> {
-    constructor(): T;
+class Base<T extends Entities> {
+    value: T;
+    constructor(value: T) {
+        this.value = value;
+    }
+    typeof(): string {
+        return typeof this.value;
+    }
 }
 
 export class DBORM {
@@ -31,10 +37,14 @@ export class DBORM {
             });
         return Result;
     };
-
-    async GetByID<T extends Entities>(instance, ID): Promise<T>{
-        //var Item: Base<T> ;
-        //instance = new Item();
+    async GetList<T extends Entities>(instance: T): Promise<T[]> {
+        var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
+            var tResult = await Repository.find();
+            return tResult;
+        });
+        return Result;
+    }
+    async GetByID<T extends Entities>(instance:T, ID): Promise<T>{
         var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
             var tResult = await Repository.findOneById(ID);
 
@@ -42,7 +52,7 @@ export class DBORM {
         });
         return Result;
     }
-    async Merge<T extends Entities>(instance) {
+    async Merge<T extends Entities>(instance:T) {
         await this.ORM(instance, async function (Repository: Repository<T>) {
             await Repository.save(instance);
         });

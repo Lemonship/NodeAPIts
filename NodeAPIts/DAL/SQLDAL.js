@@ -2,6 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
+class Base {
+    constructor(value) {
+        this.value = value;
+    }
+    typeof() {
+        return typeof this.value;
+    }
+}
 class DBORM {
     ORM(instance, response) {
         var Result = typeorm_1.createConnection({
@@ -25,9 +33,14 @@ class DBORM {
         return Result;
     }
     ;
+    async GetList(instance) {
+        var Result = await this.ORM(instance, async (Repository) => {
+            var tResult = await Repository.find();
+            return tResult;
+        });
+        return Result;
+    }
     async GetByID(instance, ID) {
-        //var Item: Base<T> ;
-        //instance = new Item();
         var Result = await this.ORM(instance, async (Repository) => {
             var tResult = await Repository.findOneById(ID);
             return tResult;

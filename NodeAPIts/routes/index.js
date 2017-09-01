@@ -16,27 +16,12 @@ router.get('/', async (req, res) => {
     var CurTime = new Date(Date.now());
     oUser.FullName = oUser.FullName + " " + CurTime.toLocaleString();
     var Title = "";
-    async function GetUser(Repository) {
-        var Result = await Repository.findOneById("0002");
-        return Result.ID;
-    }
-    ////===================================
-    //var sUser1;
-    //var Result = ORM.Merge<User>(oUser).then(async Result=>
-    //    {
-    //    sUser1 = await ORM.GetByID<User>(new User(), oUser.ID);
-    //    res.render('index', { title: sUser1.FullName });
-    //});
-    //var sUser1 = await ORM.GetByID<User>(new User(), oUser.ID);
-    ////===================================
-    //res.render('index', { title: sUser1.FullName });
-    //===================================
     //===================================
     await ORM.Merge(oUser);
-    //===================================
     var sUser1 = await ORM.GetByID(new User_1.User(), oUser.ID);
-    //===================================
-    res.render('index', { title: sUser1.FullName });
+    var UserList = await ORM.GetList(new User_1.User());
+    UserList.forEach(User => Title += User.ID + " ");
+    res.render('index', { title: Title });
     //===================================
     //ORM.ORM(oUser, async function (Repository: Repository<User>) {
     //    var sResult: string = "";
