@@ -47,7 +47,15 @@ class DBORM {
         });
         return Result;
     }
-    async Merge(instance) {
+    async ExistID(instance, ID) {
+        var Result = await this.ORM(instance, async (Repository) => {
+            var oResult = await Repository.findOneById(ID);
+            var bResult = (oResult != undefined);
+            return bResult;
+        });
+        return Result;
+    }
+    async Save(instance) {
         await this.ORM(instance, async function (Repository) {
             await Repository.save(instance);
         });

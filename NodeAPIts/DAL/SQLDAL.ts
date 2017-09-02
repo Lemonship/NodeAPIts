@@ -51,7 +51,15 @@ export class DBORM {
         });
         return Result;
     }
-    async Merge<T extends Entities>(instance:T) {
+    async ExistID<T extends Entities>(instance: T, ID): Promise<boolean> {
+        var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
+            var oResult = await Repository.findOneById(ID);
+            var bResult = (oResult != undefined)
+            return bResult;
+        });
+        return Result;
+    }
+    async Save<T extends Entities>(instance:T) {
         await this.ORM(instance, async function (Repository: Repository<T>) {
             await Repository.save(instance);
         });
