@@ -8,48 +8,47 @@ const ORM = new DBORM();
 
 
 router.get('/', async function (req, res) {
-    var _UserList = await ORM.GetList(new User());
-    res.json(_UserList);
+    var UserList = await ORM.GetList(new User());
+    res.json(UserList);
 });
 router.route('/:ID') // 輸入id當作參數
     .get(async function (req, res) {
-        var _User = await ORM.GetByID(new User(), req.params.ID);
-        res.json({_User})
+        var user = await ORM.GetByID(new User(), req.params.ID);
+        res.json(user);
     })
 
     .post(async function (req, res) {
-        var _User = new User();
-        _User.ID = req.body.User.ID;
-        var Result = await ORM.ExistID(_User, req.body.User.ID);
+        var _user = new User();
+        _user.ID = req.body.ID;
+        var Result = await ORM.ExistID(_user, req.body.ID);
         if (Result)
-            res.json({});
+            res.json({"Message":"ID Exist"});
         else {
-            _User.ID = req.body.User.ID;
-            _User.FullName = req.body.User.FullName;
-            await ORM.Save(_User);
-            var res_User = await ORM.GetByID(new User(), req.body.User.ID);
-            res.json({ res_User });
+            user.ID = req.body.ID;
+            user.FullName = req.body.FullName;
+            await ORM.Save(_user);
+            var user = await ORM.GetByID(new User(), req.body.ID);
+            res.json(user);
         }
-
     })
 
     .put(async function (req, res) {
-        var _User = new User();
-        _User.ID = req.params.ID;
-        _User.FullName = req.body.User.FullName;
-        var Result = await ORM.ExistID(_User, req.params.ID);
+        var _user = new User();
+        _user.ID = req.params.ID;
+        _user.FullName = req.body.FullName;
+        var Result = await ORM.ExistID(_user, req.params.ID);
         if (!Result)
-            res.json({});
+            res.json({ "Message": "ID Not Exist"});
         else {
-            await ORM.Save(_User);
-            var res_User = await ORM.GetByID(new User(), req.params.ID);
-            res.json({ res_User });
+            await ORM.Save(_user);
+            var user = await ORM.GetByID(new User(), req.params.ID);
+            res.json(user);
         }
     })
 
     .delete(async function (req, res) {
-        var _User = await ORM.DeleteByID(new User(), req.params.ID);
-        res.json({ _User })
+        var user = await ORM.DeleteByID(new User(), req.params.ID);
+        res.json(user);
     })
 
 export default router;
