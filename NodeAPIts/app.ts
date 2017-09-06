@@ -2,7 +2,7 @@
 import express = require('express');
 import path = require('path');
 
-import routes from './routes/UserUI';
+import routes from './routes/UserController';
 import users from './routes/UserAPI';
 import api from './routes/api';
 

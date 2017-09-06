@@ -2,22 +2,42 @@
 block layoutvariable
   - var title = `UserID: ${User.ID}`
 block content
-  - var btnType = 'info'
-  - var btnSize = 'lg'
   - var btnLabel = 'Submit'
-  - var APIPath = `/api/user/${User.ID}`
+  - var SubmitPath = `/${User.ID}`
+    - if (newform) 
+        - var SubmitPath = '/newItem'
 
     h1 #{EntityName}ID : #{User.ID}
-    form(method='POST' action=APIPath enctype='application/json')
+    form(method='POST' action=SubmitPath enctype='application/json')
         div(class="label_box")
             label(for="ID") ID: 
-            label(type="text", name="ID") #{User.ID}
+            if (newform)
+                input(type="text", placeholder="Example: 0001", name="ID", value = User.ID)
+            else
+                label(type="text") #{User.ID}
+                input(type="hidden" name="ID" value=User.ID)
         div(class="label_box")
             label(for="FullName") User Name: 
-            input(type="text", placeholder="Example: Chris Wong", name="FullName", value = User.FullName)
+            if(readonly)
+                label(type="text") #{User.FullName}
+            else
+                input(type="text", placeholder="Example: Chris Wong", name="FullName", value = User.FullName, readonly = readonly)
+        div(class="label_box")
+            label(for="CreateTime") Create Time: 
+                label(type="text") #{User.CreateTime}
+        div(class="label_box")
+            label(for="UpdateTime") Update Time: 
+                label(type="text") #{User.UpdateTime}
 
-        button(id="submit", name="submit", type="submit") #{btnLabel}
+        if(!readonly)
+            if(!newform)
+                button(id="Update", name="submit", type="submit", value="put") Update
+                button(id="Delete", name="submit", type="submit", value="delete") Delete
+            else
+                button(id="Post", name="submit", type="submit", value="post") Create
 
+        a(href="../")
+            button(id="back", name="submit", type="button") Back
 
   
 

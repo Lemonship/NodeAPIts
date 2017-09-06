@@ -56,7 +56,7 @@
     <TypeScriptCompile Include="routes\api.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="routes\UserUI.ts" />
+    <TypeScriptCompile Include="routes\UserController.ts" />
     <TypeScriptCompile Include="routes\UserAPI.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="typings\globals\debug\index.d.ts" />
