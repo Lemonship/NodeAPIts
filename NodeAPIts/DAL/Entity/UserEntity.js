@@ -15,6 +15,7 @@ let User = class User {
         this.UpdateTime = new Date(Date.now());
     }
 };
+User.EntityName = "User";
 __decorate([
     typeorm_1.PrimaryColumn("nvarchar")
 ], User.prototype, "ID", void 0);

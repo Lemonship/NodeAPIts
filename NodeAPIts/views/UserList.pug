@@ -1,0 +1,25 @@
+﻿extends layout
+block layoutvariable
+  - var title = `${EntityName} List`
+block content
+  - var btnType = 'info'
+  - var btnSize = 'lg'
+  - var btnLabel = 'Submit'
+
+    h1 #{EntityName} List
+
+    div
+      table
+        thead
+          tr: th DataList
+          tr
+            td ID
+            td FullName
+            td UpdateTime
+        tbody
+          each Data, i in DataList
+            tr
+              td 
+                a(href='/' + Data.ID) #{Data.ID}
+              td #{Data.FullName}
+              td #{Data.UpdateTime}  

@@ -1,10 +1,11 @@
 ﻿import { User } from "../DAL/Entity/UserEntity";
-import { DBORM } from "../DAL/SQLDAL";
+import { DBORM, DBSetting } from "../DAL/SQLDAL";
 
 
 import express = require('express');
 const router = express.Router();
-const ORM = new DBORM();
+const DevDB: DBSetting = new DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
+const ORM = new DBORM(DevDB, true);
 
 
 router.get('/', async function (req, res) {
@@ -13,6 +14,9 @@ router.get('/', async function (req, res) {
 });
 router.route('/:ID') // 輸入id當作參數
     .get(async function (req, res) {
+        var Result = await ORM.ExistID(new User(), req.params.ID);
+        if (!Result)
+            res.json({ "Message": "Item Not Exist" });
         var user = await ORM.GetByID(new User(), req.params.ID);
         res.json(user);
     })
@@ -20,8 +24,10 @@ router.route('/:ID') // 輸入id當作參數
     .post(async function (req, res) {
         var _user = new User();
         var Result = await ORM.ExistID(new User(), req.body.ID);
-        if (Result)
-            res.json({"Message":"ID Exist"});
+        if (req.body.ID == undefined)
+            res.json({ "Message": "Invalid User ID" });
+        else if (Result)
+            res.json({ "Message":"Item Exist"});
         else {
             _user.ID = req.body.ID;
             _user.FullName = req.body.FullName;
@@ -36,8 +42,10 @@ router.route('/:ID') // 輸入id當作參數
         _user.ID = req.params.ID;
         _user.FullName = req.body.FullName;
         var Result = await ORM.ExistID(new User(), req.params.ID);
-        if (!Result)
-            res.json({ "Message": "User Not Exist"});
+        if (req.params.ID == undefined)
+            res.json({ "Message": "Invalid User ID" });
+        else if (!Result)
+            res.json({ "Message": "Item Not Exist"});
         else {
             await ORM.Save(_user);
             var user = await ORM.GetByID(new User(), req.params.ID);
@@ -48,14 +56,14 @@ router.route('/:ID') // 輸入id當作參數
     .delete(async function (req, res) {
         var Result = await ORM.ExistID(new User(), req.params.ID);
         if (!Result)
-            res.json({ "Message": "User Not Exist" });
+            res.json({ "Message": "Item Not Exist" });
         else {
             var user = await ORM.DeleteByID(new User(), req.params.ID);
             var Result = await ORM.ExistID(new User(), req.params.ID);
             if (!Result)
-                res.json({ "Message": "User Deleted" });
+                res.json({ "Message": "Item Deleted" });
             else
-                res.json({ "Message": "User Delete Failed" });
+                res.json({ "Message": "Item Delete Failed" });
         }
     })
 

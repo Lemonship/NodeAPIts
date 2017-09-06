@@ -2,8 +2,8 @@
 import express = require('express');
 import path = require('path');
 
-import routes from './routes/index';
-import users from './routes/Users';
+import routes from './routes/UserUI';
+import users from './routes/UserAPI';
 import api from './routes/api';
 
 var app = express();
@@ -22,8 +22,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-//app.use('/', routes);
-app.use('/', users);
+app.use('/', routes);
+app.use('/api/user', users);
 app.use('/api', api);
 
 // catch 404 and forward to error handler

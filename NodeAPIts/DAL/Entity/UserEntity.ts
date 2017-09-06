@@ -9,6 +9,7 @@ export class User implements Entities {
         this.CreateTime = new Date(Date.now());
         this.UpdateTime = new Date(Date.now());
     }
+    static EntityName: string = "User";
     @PrimaryColumn("nvarchar")
     ID: string;
     @Column("nvarchar")
@@ -17,6 +18,4 @@ export class User implements Entities {
     CreateTime: Date;
     @Column("datetime")
     UpdateTime: Date;
-
-
 }

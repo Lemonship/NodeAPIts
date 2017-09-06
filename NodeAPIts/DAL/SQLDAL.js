@@ -2,25 +2,32 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const typeorm_1 = require("typeorm");
-class Base {
-    constructor(value) {
-        this.value = value;
-    }
-    typeof() {
-        return typeof this.value;
+class DBSetting {
+    constructor(Type, Host, Port, Username, Password, Database) {
+        this.type = Type;
+        this.host = Host;
+        this.port = Port;
+        this.username = Username;
+        this.password = Password;
+        this.database = Database;
     }
 }
+exports.DBSetting = DBSetting;
 class DBORM {
+    constructor(DBSetting, CodeFirst) {
+        this._DBSetting = DBSetting;
+        this._CodeFirst = CodeFirst;
+    }
     ORM(instance, response) {
         var Result = typeorm_1.createConnection({
             type: "mssql",
-            host: "localhost",
-            port: 1433,
-            username: "Development",
-            password: "P@ssw0rd",
-            database: "Development",
+            host: this._DBSetting.host,
+            port: this._DBSetting.port,
+            username: this._DBSetting.username,
+            password: this._DBSetting.password,
+            database: this._DBSetting.database,
             entities: [__dirname + "/Entity/*.js"],
-            autoSchemaSync: true
+            autoSchemaSync: this._CodeFirst
         }).then(async (connection) => {
             let Repository = connection.getRepository(instance.constructor.name);
             Result = await response(Repository);

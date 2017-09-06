@@ -1,0 +1,23 @@
+﻿extends layout
+block layoutvariable
+  - var title = `UserID: ${User.ID}`
+block content
+  - var btnType = 'info'
+  - var btnSize = 'lg'
+  - var btnLabel = 'Submit'
+  - var APIPath = `/api/user/${User.ID}`
+
+    h1 #{EntityName}ID : #{User.ID}
+    form(method='POST' action=APIPath enctype='application/json')
+        div(class="label_box")
+            label(for="ID") ID: 
+            label(type="text", name="ID") #{User.ID}
+        div(class="label_box")
+            label(for="FullName") User Name: 
+            input(type="text", placeholder="Example: Chris Wong", name="FullName", value = User.FullName)
+
+        button(id="submit", name="submit", type="submit") #{btnLabel}
+
+
+  
+

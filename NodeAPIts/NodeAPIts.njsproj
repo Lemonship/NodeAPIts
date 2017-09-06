@@ -56,8 +56,8 @@
     <TypeScriptCompile Include="routes\api.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="routes\index.ts" />
-    <TypeScriptCompile Include="routes\Users.ts" />
+    <TypeScriptCompile Include="routes\UserUI.ts" />
+    <TypeScriptCompile Include="routes\UserAPI.ts" />
     <TypeScriptCompile Include="Scripts\typings\node\node.d.ts" />
     <TypeScriptCompile Include="typings\globals\debug\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
@@ -70,6 +70,8 @@
     <Content Include="tsconfig.json">
       <SubType>Code</SubType>
     </Content>
+    <Content Include="views\UserList.pug" />
+    <Content Include="views\UserItem.pug" />
     <Content Include="views\index.pug" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />

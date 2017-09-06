@@ -1,31 +1,48 @@
 ﻿import "reflect-metadata";
 import { createConnection, getEntityManager, Repository } from "typeorm";
-import { User } from "../DAL/Entity/UserEntity";
 
 export interface Entities {
-    
 }
-class Base<T extends Entities> {
-    value: T;
-    constructor(value: T) {
-        this.value = value;
+
+export class DBSetting {
+    constructor(Type: string, Host: string, Port: number, Username: string, Password: string, Database: string)
+    {
+        this.type = Type;
+        this.host = Host;
+        this.port = Port;
+        this.username = Username;
+        this.password = Password;
+        this.database = Database;
     }
-    typeof(): string {
-        return typeof this.value;
-    }
+    type: string;
+    host: string;
+    port: number;
+    username: string;
+    password: string;
+    database: string;
 }
 
 export class DBORM {
+
+    _DBSetting: DBSetting;
+    _CodeFirst: boolean;
+
+    constructor(DBSetting: DBSetting, CodeFirst: boolean)
+    {
+        this._DBSetting = DBSetting;
+        this._CodeFirst = CodeFirst;
+    }
+
     ORM<EntityClass>(instance, response: Function) {
         var Result = createConnection({
             type: "mssql",
-            host: "localhost",
-            port: 1433,
-            username: "Development",
-            password: "P@ssw0rd",
-            database: "Development",
+            host: this._DBSetting.host,
+            port: this._DBSetting.port,
+            username: this._DBSetting.username,
+            password: this._DBSetting.password,
+            database: this._DBSetting.database,
             entities: [__dirname + "/Entity/*.js"],
-            autoSchemaSync: true
+            autoSchemaSync: this._CodeFirst
         }).then(async connection => {
             let Repository = connection.getRepository(instance.constructor.name);
             Result = await response(Repository);

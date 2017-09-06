@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const debug = require("debug");
 const express = require("express");
 const path = require("path");
-const Users_1 = require("./routes/Users");
+const UserUI_1 = require("./routes/UserUI");
+const UserAPI_1 = require("./routes/UserAPI");
 const api_1 = require("./routes/api");
 var app = express();
 // view engine setup
@@ -15,8 +16,8 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
-//app.use('/', routes);
-app.use('/', Users_1.default);
+app.use('/', UserUI_1.default);
+app.use('/api/user', UserAPI_1.default);
 app.use('/api', api_1.default);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
