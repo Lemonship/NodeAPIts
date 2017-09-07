@@ -57,6 +57,7 @@ router.route('/:ID') // 輸入id當作參數
     }
     else {
         _user.FullName = req.body.FullName;
+        _user.UpdateTime = new Date(Date.now());
         await ORM.Save(_user);
         var user = await ORM.GetByID(new UserEntity_1.User(), _user.ID);
         res.render('UserItem', { EntityName: "User", User: user, readonly: true, newform: false });

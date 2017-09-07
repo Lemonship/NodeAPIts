@@ -51,17 +51,17 @@ router.route('/:ID') // 輸入id當作參數
             _user = await ORM.GetByID(_user, _user.ID);
         if (_user.ID == undefined)
             res.json({ "Message": "Invalid User ID" });
-        else if (!Result && (Method.toLowerCase() == "post"))
+        else if (Result && (Method.toLowerCase() == "post"))
             res.json({ "Message": "Item Exist" });
-        else if (Result && (Method.toLowerCase() != "post"))
+        else if (!Result && (Method.toLowerCase() != "post"))
             res.json({ "Message": "Item Not Exist" });
         else if (Method.toLowerCase() == "delete") {
             await ORM.DeleteByID(_user, _user.ID);
             res.redirect('../')
         }
         else{
-
             _user.FullName = req.body.FullName;
+            _user.UpdateTime = new Date(Date.now());
             await ORM.Save(_user);
             var user = await ORM.GetByID(new User(), _user.ID);
             res.render('UserItem', { EntityName: "User", User: user, readonly: true, newform: false });
