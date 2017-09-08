@@ -5,22 +5,29 @@ block content
   - var btnType = 'info'
   - var btnSize = 'lg'
   - var btnLabel = 'Submit'
-
+  -function FormatDate(date){
+    -var d = date;
+    -var time = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
+    -return time;
+  -}
     h1 #{EntityName} List
 
     div
       table
         thead
-          tr: th DataList - 
-            a(href='/newitem') Create New Item
           tr
-            td ID
-            td FullName
-            td UpdateTime
+            th
+              a(href='/newitem') 
+                button(type='button') Create New Item
+          tr
+            td: b ID
+            td: b FullName
+            td: b UpdateTime
+            td: b CreateTime
         tbody
           each Data, i in DataList
             tr
-              td 
-                a(href='/' + Data.ID) #{Data.ID}
+              td: a(href='/' + Data.ID) #{Data.ID}
               td #{Data.FullName}
-              td #{Data.UpdateTime}  
+              td #{FormatDate(Data.UpdateTime)}  
+              td #{FormatDate(Data.CreateTime)}  

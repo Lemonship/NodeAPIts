@@ -47,6 +47,9 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="DAL\Entity\ar_reimburse_histEntity.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="DAL\Entity\UserEntity.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

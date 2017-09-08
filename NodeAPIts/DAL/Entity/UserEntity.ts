@@ -1,15 +1,14 @@
 ﻿import { Entity, Column, PrimaryColumn } from "typeorm";
 import { Entities } from "../SQLDAL";
 @Entity()
-export class User implements Entities {
-
+export class user implements Entities {
+    static EntityName: string = "User";
     constructor() {
         this.ID = "";
         this.FullName = "";
         this.CreateTime = new Date(Date.now());
         this.UpdateTime = new Date(Date.now());
     }
-    static EntityName: string = "User";
     @PrimaryColumn("nvarchar")
     ID: string;
     @Column("nvarchar")

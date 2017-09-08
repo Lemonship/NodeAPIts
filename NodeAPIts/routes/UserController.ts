@@ -6,14 +6,14 @@ const router = express.Router();
 import "reflect-metadata";
 import { createConnection } from "typeorm";
 import { Repository } from "typeorm";
-import { User } from "../DAL/Entity/UserEntity";
+import { user } from "../DAL/Entity/UserEntity";
 import { DBORM , DBSetting} from "../DAL/SQLDAL";
 
 
 const DevelopmentDB: DBSetting = new DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
-const ORM = new DBORM(DevelopmentDB, false);
+const ORM = new DBORM(DevelopmentDB, true);
 router.get('/', async (req: express.Request, res: express.Response) => {
-    var UserList = await ORM.GetList(new User());
+    var UserList = await ORM.GetList(new user());
 
     var Title = "";
     //UserList.forEach(User => Title += User.ID + " ");
@@ -23,23 +23,23 @@ router.get('/', async (req: express.Request, res: express.Response) => {
 router.route('/:ID') // 輸入id當作參數
     .get(async function (req, res) {
         if (req.params.ID.toLowerCase() == "newitem") {
-            var user = new User();
-            //user.ID = 'newitem';
-            res.render('UserItem', { EntityName: "User", User: user, readonly: false, newform: true });
+            var _user = new user();
+            res.render('UserItem', { EntityName: user.EntityName, User: _user, readonly: false, newform: true });
         }
         else {
-            var Result = await ORM.ExistID(new User(), req.params.ID);
+            var Result = await ORM.ExistID(new user(), req.params.ID);
             if (!Result)
                 res.render('error', { message: "User Not Exist" });
             else {
-                var user = await ORM.GetByID(new User(), req.params.ID);
-                res.render('UserItem', { EntityName: "User", User: user, readonly: false, newform: false });
+                var _user = await ORM.GetByID(new user(), req.params.ID);
+                res.render('UserItem', { EntityName: "User", User: _user, readonly: false, newform: false });
             }
         }
     })
     .post(async function (req, res) {
+        //Put, Post, Delete
         var Method: string = req.body.submit;
-        var _user = new User();
+        var _user = new user();
         if (Method == undefined)
             res.json({ "Message": "Method Error" });
         else if (Method.toLowerCase() == "post")
@@ -63,7 +63,7 @@ router.route('/:ID') // 輸入id當作參數
             _user.FullName = req.body.FullName;
             _user.UpdateTime = new Date(Date.now());
             await ORM.Save(_user);
-            var user = await ORM.GetByID(new User(), _user.ID);
+            var user = await ORM.GetByID(new user(), _user.ID);
             res.render('UserItem', { EntityName: "User", User: user, readonly: true, newform: false });
         }
     })

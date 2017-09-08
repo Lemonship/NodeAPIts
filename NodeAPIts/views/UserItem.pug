@@ -2,42 +2,58 @@
 block layoutvariable
   - var title = `UserID: ${User.ID}`
 block content
-  - var btnLabel = 'Submit'
-  - var SubmitPath = `/${User.ID}`
+    -function FormatDate(date){
+        -var d = date;
+        -var time = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
+        -return time;
+    -}
+    - var btnLabel = 'Submit'
+    - var SubmitPath = `/${User.ID}`
     - if (newform) 
         - var SubmitPath = '/newItem'
 
     h1 #{EntityName}ID : #{User.ID}
     form(method='POST' action=SubmitPath enctype='application/json')
-        div(class="label_box")
-            label(for="ID") ID: 
-            if (newform)
-                input(type="text", placeholder="Example: 0001", name="ID", value = User.ID)
-            else
-                label(type="text") #{User.ID}
-                input(type="hidden" name="ID" value=User.ID)
-        div(class="label_box")
-            label(for="FullName") User Name: 
-            if(readonly)
-                label(type="text") #{User.FullName}
-            else
-                input(type="text", placeholder="Example: Chris Wong", name="FullName", value = User.FullName, readonly = readonly)
-        div(class="label_box")
-            label(for="CreateTime") Create Time: 
-                label(type="text") #{User.CreateTime}
-        div(class="label_box")
-            label(for="UpdateTime") Update Time: 
-                label(type="text") #{User.UpdateTime}
+        table
+            tr
+               td(class="label_box")
+                    label(for="ID") ID
+               td
+                    if (newform)
+                        input(type="text", placeholder="Example: 0001", name="ID", value = User.ID)
+                    else
+                        label(type="text") #{User.ID}
+                        input(type="hidden" name="ID" value=User.ID)
+            tr
+                td(class="label_box")
+                    label(for="FullName") User Name
+                td
+                    if(readonly)
+                        label(type="text") #{User.FullName}
+                    else
+                        input(type="text", placeholder="Example: Chris Wong", name="FullName", value = User.FullName, readonly = readonly)
+            tr
+                td(class="label_box")
+                    label(for="CreateTime") Create Time
+                td
+                    label(type="text") #{FormatDate(User.CreateTime)}
+            tr
+                td(class="label_box")
+                    label(for="UpdateTime") Update Time
+                td 
+                    label(type="text") #{FormatDate(User.UpdateTime)}
 
         if(!readonly)
             if(!newform)
                 button(id="Update", name="submit", type="submit", value="put") Update
+                | 
                 button(id="Delete", name="submit", type="submit", value="delete") Delete
+                | 
             else
                 button(id="Post", name="submit", type="submit", value="post") Create
 
         a(href="../")
-            button(id="back", name="submit", type="button") Back
+            button(id="back", name="back", type="button") Back
 
   
 
