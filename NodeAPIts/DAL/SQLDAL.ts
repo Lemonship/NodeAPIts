@@ -1,5 +1,6 @@
 ﻿import "reflect-metadata";
 import { createConnection, getEntityManager, Repository } from "typeorm";
+import { user } from "./Entity/UserEntity" ;
 
 export interface Entities {
 }
@@ -42,6 +43,7 @@ export class DBORM {
             password: this._DBSetting.password,
             database: this._DBSetting.database,
             entities: [__dirname + "/Entity/*.js"],
+            //entities: [user],
             autoSchemaSync: this._CodeFirst
         }).then(async connection => {
             let Repository = connection.getRepository(instance.constructor.name);
@@ -77,6 +79,11 @@ export class DBORM {
         return Result;
     }
     async Save<T extends Entities>(instance:T) {
+        await this.ORM(instance, async function (Repository: Repository<T>) {
+            await Repository.save(instance);
+        });
+    }
+    async SaveList<T extends Entities>(instance: T[]) {
         await this.ORM(instance, async function (Repository: Repository<T>) {
             await Repository.save(instance);
         });

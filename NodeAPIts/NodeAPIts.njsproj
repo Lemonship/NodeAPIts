@@ -47,7 +47,13 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="DAL\Entity\ar_reimburse_histEntity.ts">
+    <TypeScriptCompile Include="DAL\Entity\ActivityEntity.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="DAL\Entity\CategoryEntity.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="DAL\Entity\TaskEntity.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="DAL\Entity\UserEntity.ts">
@@ -78,10 +84,14 @@
     <Content Include="views\index.pug" />
     <Content Include="views\layout.pug" />
     <Content Include="views\error.pug" />
+    <TypeScriptCompile Include="Utility\InitSystem.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAL\" />
     <Folder Include="DAL\Entity\" />
+    <Folder Include="Utility\" />
     <Folder Include="public\" />
     <Folder Include="public\images\" />
     <Folder Include="public\javascripts\" />

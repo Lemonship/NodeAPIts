@@ -6,7 +6,10 @@ const path = require("path");
 const UserController_1 = require("./routes/UserController");
 const UserAPI_1 = require("./routes/UserAPI");
 const api_1 = require("./routes/api");
+const InitSystem_1 = require("./Utility/InitSystem");
 var app = express();
+// Init System
+InitSystem_1.InitTable();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');

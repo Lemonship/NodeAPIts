@@ -6,7 +6,12 @@ import routes from './routes/UserController';
 import users from './routes/UserAPI';
 import api from './routes/api';
 
+import { InitTable } from './Utility/InitSystem'
+
 var app = express();
+
+// Init System
+InitTable();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

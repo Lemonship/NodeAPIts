@@ -27,6 +27,7 @@ class DBORM {
             password: this._DBSetting.password,
             database: this._DBSetting.database,
             entities: [__dirname + "/Entity/*.js"],
+            //entities: [user],
             autoSchemaSync: this._CodeFirst
         }).then(async (connection) => {
             let Repository = connection.getRepository(instance.constructor.name);
@@ -63,6 +64,11 @@ class DBORM {
         return Result;
     }
     async Save(instance) {
+        await this.ORM(instance, async function (Repository) {
+            await Repository.save(instance);
+        });
+    }
+    async SaveList(instance) {
         await this.ORM(instance, async function (Repository) {
             await Repository.save(instance);
         });
