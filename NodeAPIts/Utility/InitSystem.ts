@@ -7,19 +7,40 @@ import { task } from "../DAL/Entity/TaskEntity";
 import "reflect-metadata";
 
 const DevelopmentDB: DBSetting = new DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
-const ORM = new DBORM(DevelopmentDB, true);
-export function InitTable(){
+export const ORM = new DBORM(DevelopmentDB, false);
+export async function InitTable(){
     var ItemList;
-    var List : category[];
-    ORM.GetList(new category()).then(ItemList => {
-        if (ItemList == undefined)
-        {
+    var List: category[];
+    try {
+        ItemList = await ORM.GetList(new category())
+        if (ItemList.length == 0) {
             List = [];
             List.push(new category("Unclassified"));
             List.push(new category("Health"));
             List.push(new category("Knowledge"));
-            ORM.SaveList(List).then(Result => { })
+            List.push(new category("Networking"));
+            List.push(new category("Finance"));
+            List.push(new category("Career"));
+            List.push(new category("School"));
+            List.push(new category("Art"));
+            List.push(new category("Sports"));
+            List.push(new category("Habit"));
+            List.push(new category("Special Task"));
+            List.push(new category("Idea Collection"));
+            await ORM.SaveList(List);
         }
-    });
+    } catch(error){
+        console.debug(error);
+    }
 
+
+    //ORM.GetList(new category()).then(ItemList => {
+    //    if (ItemList == undefined) {
+    //        List = [];
+    //        List.push(new category("Unclassified"));
+    //        List.push(new category("Health"));
+    //        List.push(new category("Knowledge"));
+    //        ORM.SaveList(List).then(Result => { })
+    //    }
+    //});
 }

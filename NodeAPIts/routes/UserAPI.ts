@@ -4,9 +4,9 @@ import { DBORM, DBSetting } from "../DAL/SQLDAL";
 
 import express = require('express');
 const router = express.Router();
-const DevDB: DBSetting = new DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
-const ORM = new DBORM(DevDB, false);
-
+//const DevDB: DBSetting = new DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
+//const ORM = new DBORM(DevDB, false);
+import { ORM } from "../Utility/InitSystem";
 
 router.get('/', async function (req, res) {
     var UserList = await ORM.GetList(new user());

@@ -8,8 +8,6 @@ const UserAPI_1 = require("./routes/UserAPI");
 const api_1 = require("./routes/api");
 const InitSystem_1 = require("./Utility/InitSystem");
 var app = express();
-// Init System
-InitSystem_1.InitTable();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -49,7 +47,10 @@ app.use((err, req, res, next) => {
         error: {}
     });
 });
-app.set('port', process.env.PORT || 3000);
-var server = app.listen(app.get('port'), function () {
-    debug('Express server listening on port ' + server.address().port);
+// Init System
+InitSystem_1.InitTable().then(Result => {
+    app.set('port', process.env.PORT || 3000);
+    var server = app.listen(app.get('port'), function () {
+        debug('Express server listening on port ' + server.address().port);
+    });
 });

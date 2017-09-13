@@ -4,14 +4,13 @@
 import express = require('express');
 const router = express.Router();
 import "reflect-metadata";
-import { createConnection } from "typeorm";
-import { Repository } from "typeorm";
+import { createConnection, Repository } from "typeorm";
 import { user } from "../DAL/Entity/UserEntity";
 import { DBORM , DBSetting} from "../DAL/SQLDAL";
-
+import { ORM } from "../Utility/InitSystem";
 
 const DevelopmentDB: DBSetting = new DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
-const ORM = new DBORM(DevelopmentDB, true);
+//const ORM = new DBORM(DevelopmentDB, false);
 router.get('/', async (req: express.Request, res: express.Response) => {
     var UserList = await ORM.GetList(new user());
 
@@ -63,8 +62,8 @@ router.route('/:ID') // 輸入id當作參數
             _user.FullName = req.body.FullName;
             _user.UpdateTime = new Date(Date.now());
             await ORM.Save(_user);
-            var user = await ORM.GetByID(new user(), _user.ID);
-            res.render('UserItem', { EntityName: "User", User: user, readonly: true, newform: false });
+            var _responseuser = await ORM.GetByID(new user(), _user.ID);
+            res.render('UserItem', { EntityName: "User", User: _responseuser, readonly: true, newform: false });
         }
     })
 export default router;

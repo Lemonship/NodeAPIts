@@ -1,4 +1,4 @@
-﻿import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+﻿import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import { Entities } from "../SQLDAL";
 @Entity()
 export class category implements Entities {
@@ -8,7 +8,7 @@ export class category implements Entities {
             Name = "";
         this.Name = Name;
     }
-    @PrimaryGeneratedColumn("int")
+    @PrimaryGeneratedColumn()
     ID: number;
     @Column("nvarchar")
     Name: string;

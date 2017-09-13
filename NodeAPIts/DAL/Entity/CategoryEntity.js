@@ -19,7 +19,7 @@ let category = class category {
 };
 category.EntityName = "Category";
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn("int"),
+    typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], category.prototype, "ID", void 0);
 __decorate([
