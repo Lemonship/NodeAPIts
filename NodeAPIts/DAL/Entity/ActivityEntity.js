@@ -10,10 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
+const CategoryEntity_1 = require("./CategoryEntity");
+const TaskEntity_1 = require("./TaskEntity");
 let activity = class activity {
     constructor() {
         this.Name = "";
-        this.Category = 0;
+        //this.Category = 0;
     }
 };
 activity.EntityName = "Activity";
@@ -26,9 +28,13 @@ __decorate([
     __metadata("design:type", String)
 ], activity.prototype, "Name", void 0);
 __decorate([
-    typeorm_1.Column("int"),
-    __metadata("design:type", Number)
+    typeorm_1.ManyToOne(type => CategoryEntity_1.category, Category => Category.ID),
+    __metadata("design:type", CategoryEntity_1.category)
 ], activity.prototype, "Category", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => TaskEntity_1.task, Task => Task.ID),
+    __metadata("design:type", Array)
+], activity.prototype, "Task", void 0);
 activity = __decorate([
     typeorm_1.Entity(),
     __metadata("design:paramtypes", [])

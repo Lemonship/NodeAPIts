@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
+const ActivityEntity_1 = require("./ActivityEntity");
 let category = class category {
     constructor(Name) {
         if (Name == undefined)
@@ -26,6 +27,10 @@ __decorate([
     typeorm_1.Column("nvarchar"),
     __metadata("design:type", String)
 ], category.prototype, "Name", void 0);
+__decorate([
+    typeorm_1.OneToMany(type => ActivityEntity_1.activity, Activity => Activity.ID),
+    __metadata("design:type", Array)
+], category.prototype, "Activity", void 0);
 category = __decorate([
     typeorm_1.Entity(),
     __metadata("design:paramtypes", [String])

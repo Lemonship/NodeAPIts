@@ -30,14 +30,5 @@ async function InitTable() {
     catch (error) {
         console.debug(error);
     }
-    //ORM.GetList(new category()).then(ItemList => {
-    //    if (ItemList == undefined) {
-    //        List = [];
-    //        List.push(new category("Unclassified"));
-    //        List.push(new category("Health"));
-    //        List.push(new category("Knowledge"));
-    //        ORM.SaveList(List).then(Result => { })
-    //    }
-    //});
 }
 exports.InitTable = InitTable;

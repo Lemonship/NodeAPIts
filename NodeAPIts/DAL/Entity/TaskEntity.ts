@@ -1,5 +1,6 @@
-﻿import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+﻿import { Entity, Column, PrimaryColumn, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Entities } from "../SQLDAL";
+import { activity } from "./ActivityEntity";
 @Entity()
 export class task implements Entities {
     static EntityName: string = "Task";
@@ -12,11 +13,12 @@ export class task implements Entities {
     ID: number;
     @Column("nvarchar")
     Name: string;
-    @Column("int")
-    Activity: number;
+    @ManyToOne(type => activity, activity => activity.ID)
+    Activity: activity;
     @Column("datetime")
     CreateTime: Date;
     @Column("datetime")
     UpdateTime: Date;
+
     
 }

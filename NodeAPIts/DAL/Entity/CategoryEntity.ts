@@ -1,5 +1,6 @@
-﻿import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+﻿import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { Entities } from "../SQLDAL";
+import { activity } from "./ActivityEntity";
 @Entity()
 export class category implements Entities {
     static EntityName: string = "Category";
@@ -12,4 +13,6 @@ export class category implements Entities {
     ID: number;
     @Column("nvarchar")
     Name: string;
+    @OneToMany(type => activity, Activity => Activity.ID)
+    Activity: activity[];
 }

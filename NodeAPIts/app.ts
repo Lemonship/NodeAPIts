@@ -2,7 +2,8 @@
 import express = require('express');
 import path = require('path');
 
-import routes from './routes/UserController';
+import UserController from './routes/UserController';
+import ActivityController from './routes/ActivityController';
 import users from './routes/UserAPI';
 import api from './routes/api';
 
@@ -25,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 
-app.use('/', routes);
+app.use('/', ActivityController);
 app.use('/api/user', users);
 app.use('/api', api);
 

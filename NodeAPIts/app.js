@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const debug = require("debug");
 const express = require("express");
 const path = require("path");
-const UserController_1 = require("./routes/UserController");
+const ActivityController_1 = require("./routes/ActivityController");
 const UserAPI_1 = require("./routes/UserAPI");
 const api_1 = require("./routes/api");
 const InitSystem_1 = require("./Utility/InitSystem");
@@ -17,7 +17,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
-app.use('/', UserController_1.default);
+app.use('/', ActivityController_1.default);
 app.use('/api/user', UserAPI_1.default);
 app.use('/api', api_1.default);
 // catch 404 and forward to error handler

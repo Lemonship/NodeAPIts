@@ -2,22 +2,18 @@
  * GET home page.
  */
 import express = require('express');
-const UserController = express.Router();
+const router = express.Router();
 import "reflect-metadata";
 import { createConnection, Repository } from "typeorm";
 import { user } from "../DAL/Entity/UserEntity";
 import { DBORM , DBSetting} from "../DAL/SQLDAL";
 import { ORM } from "../Utility/InitSystem";
 
-UserController.get('/', async (req: express.Request, res: express.Response) => {
+router.get('/', async (req: express.Request, res: express.Response) => {
     var UserList = await ORM.GetList(new user());
-
-    var Title = "";
-    //UserList.forEach(User => Title += User.ID + " ");
-
     res.render('UserList', { EntityName: "User", DataList: UserList});
 });
-UserController.route('/:ID') // 輸入id當作參數
+router.route('/:ID') // 輸入id當作參數
     .get(async function (req, res) {
         if (req.params.ID.toLowerCase() == "newitem") {
             var _user = new user();
@@ -64,4 +60,4 @@ UserController.route('/:ID') // 輸入id當作參數
             res.render('UserItem', { EntityName: "User", User: _responseuser, readonly: true, newform: false });
         }
     })
-export default UserController;
+export default router;

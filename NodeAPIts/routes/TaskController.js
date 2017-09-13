@@ -4,17 +4,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * GET home page.
  */
 const express = require("express");
-const UserController = express.Router();
+const router = express.Router();
 require("reflect-metadata");
 const UserEntity_1 = require("../DAL/Entity/UserEntity");
 const InitSystem_1 = require("../Utility/InitSystem");
-UserController.get('/', async (req, res) => {
+router.get('/', async (req, res) => {
     var UserList = await InitSystem_1.ORM.GetList(new UserEntity_1.user());
-    var Title = "";
-    //UserList.forEach(User => Title += User.ID + " ");
     res.render('UserList', { EntityName: "User", DataList: UserList });
 });
-UserController.route('/:ID') // 輸入id當作參數
+router.route('/:ID') // 輸入id當作參數
     .get(async function (req, res) {
     if (req.params.ID.toLowerCase() == "newitem") {
         var _user = new UserEntity_1.user();
@@ -61,4 +59,4 @@ UserController.route('/:ID') // 輸入id當作參數
         res.render('UserItem', { EntityName: "User", User: _responseuser, readonly: true, newform: false });
     }
 });
-exports.default = UserController;
+exports.default = router;

@@ -28,19 +28,10 @@ export async function InitTable(){
             List.push(new category("Special Task"));
             List.push(new category("Idea Collection"));
             await ORM.SaveList(List);
+
         }
     } catch(error){
         console.debug(error);
     }
 
-
-    //ORM.GetList(new category()).then(ItemList => {
-    //    if (ItemList == undefined) {
-    //        List = [];
-    //        List.push(new category("Unclassified"));
-    //        List.push(new category("Health"));
-    //        List.push(new category("Knowledge"));
-    //        ORM.SaveList(List).then(Result => { })
-    //    }
-    //});
 }
