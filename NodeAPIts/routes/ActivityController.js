@@ -7,6 +7,7 @@ const express = require("express");
 const router = express.Router();
 require("reflect-metadata");
 const ActivityEntity_1 = require("../DAL/Entity/ActivityEntity");
+const CategoryEntity_1 = require("../DAL/Entity/CategoryEntity");
 const InitSystem_1 = require("../Utility/InitSystem");
 var EntityClass = ActivityEntity_1.activity;
 var ListViewName = EntityClass.EntityName + 'List';
@@ -56,9 +57,11 @@ router.route('/:ID') // 輸入id當作參數
     }
     else {
         _instance.Name = req.body.Name;
+        var Category = await InitSystem_1.ORM.GetByID(new CategoryEntity_1.category(), 1);
+        _instance.Category = Category;
         await InitSystem_1.ORM.Save(_instance);
-        var _responseuser = await InitSystem_1.ORM.GetByID(new EntityClass(), _instance.ID);
-        res.render(ItemViewName, { EntityName: EntityClass.EntityName, Item: _responseuser, readonly: true, newform: false });
+        var _responseitem = await InitSystem_1.ORM.GetByID(new EntityClass(), _instance.ID);
+        res.render(ItemViewName, { EntityName: EntityClass.EntityName, Item: _responseitem, readonly: true, newform: false });
     }
 });
 exports.default = router;

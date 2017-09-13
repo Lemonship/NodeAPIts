@@ -6,6 +6,7 @@ const router = express.Router();
 import "reflect-metadata";
 import { createConnection, Repository } from "typeorm";
 import { activity } from "../DAL/Entity/ActivityEntity";
+import { category } from "../DAL/Entity/CategoryEntity";
 import { DBORM , DBSetting} from "../DAL/SQLDAL";
 import { ORM } from "../Utility/InitSystem";
 
@@ -59,9 +60,11 @@ router.route('/:ID') // 輸入id當作參數
         }
         else{
             _instance.Name = req.body.Name;
+            var Category = await ORM.GetByID(new category(),1);
+            _instance.Category = Category;
             await ORM.Save(_instance);
-            var _responseuser = await ORM.GetByID(new EntityClass(), _instance.ID);
-            res.render(ItemViewName, { EntityName: EntityClass.EntityName, Item: _responseuser, readonly: true, newform: false });
+            var _responseitem = await ORM.GetByID(new EntityClass(), _instance.ID);
+            res.render(ItemViewName, { EntityName: EntityClass.EntityName, Item: _responseitem, readonly: true, newform: false });
         }
     })
 export default router;
