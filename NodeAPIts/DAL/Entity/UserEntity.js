@@ -19,6 +19,7 @@ let user = class user {
     }
 };
 user.EntityName = "User";
+user.ClassName = "user";
 __decorate([
     typeorm_1.PrimaryColumn("nvarchar"),
     __metadata("design:type", String)

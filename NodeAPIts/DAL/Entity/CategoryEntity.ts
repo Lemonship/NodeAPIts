@@ -1,9 +1,10 @@
-﻿import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+﻿import { Entity, Column, PrimaryGeneratedColumn, OneToMany, JoinColumn } from "typeorm";
 import { Entities } from "../SQLDAL";
 import { activity } from "./ActivityEntity";
 @Entity()
 export class category implements Entities {
     static EntityName: string = "Category";
+    static ClassName: string = "category";
     constructor(Name?: string) {
         if (Name == undefined)
             Name = "";
@@ -14,5 +15,5 @@ export class category implements Entities {
     @Column("nvarchar")
     Name: string;
     @OneToMany(type => activity, Activity => Activity.ID)
-    Activity: activity[];
+    Activitys: activity[];
 }

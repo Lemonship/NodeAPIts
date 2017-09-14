@@ -3,6 +3,7 @@ import { Entities } from "../SQLDAL";
 @Entity()
 export class user implements Entities {
     static EntityName: string = "User";
+    static ClassName: string = "user";
     constructor() {
         this.ID = "";
         this.FullName = "";

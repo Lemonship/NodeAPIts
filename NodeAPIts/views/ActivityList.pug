@@ -18,13 +18,13 @@ block content
           tr
             th
               a(href='/newitem') 
-                button(type='button') Create New Item
+                button(type='button') Create New #{EntityName}
           tr
-            td: b ID
-            td: b Name
+            td: b #{EntityName}
+            td: b Category
         tbody
           each Data, i in DataList
             tr
-              td: a(href='/' + Data.ID) #{Data.ID}
-              td #{Data.FullName}
+              td: a(href='/' + Data.ID) #{Data.Name}
+              td #{Data.Category.Name}
 

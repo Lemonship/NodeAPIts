@@ -19,8 +19,9 @@ let task = class task {
     }
 };
 task.EntityName = "Task";
+task.ClassName = "task";
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn("int"),
+    typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], task.prototype, "ID", void 0);
 __decorate([
@@ -29,6 +30,7 @@ __decorate([
 ], task.prototype, "Name", void 0);
 __decorate([
     typeorm_1.ManyToOne(type => ActivityEntity_1.activity, activity => activity.ID),
+    typeorm_1.JoinColumn({ name: "ActivityID" }),
     __metadata("design:type", ActivityEntity_1.activity)
 ], task.prototype, "Activity", void 0);
 __decorate([

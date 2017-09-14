@@ -4,7 +4,12 @@ const SQLDAL_1 = require("../DAL/SQLDAL");
 const CategoryEntity_1 = require("../DAL/Entity/CategoryEntity");
 require("reflect-metadata");
 const DevelopmentDB = new SQLDAL_1.DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
-exports.ORM = new SQLDAL_1.DBORM(DevelopmentDB, false);
+exports.ORM = new SQLDAL_1.DBORM(DevelopmentDB, true);
+async function InitSystem() {
+    await exports.ORM.InitConnection();
+    await InitTable();
+}
+exports.InitSystem = InitSystem;
 async function InitTable() {
     var ItemList;
     var List;

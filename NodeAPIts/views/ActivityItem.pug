@@ -12,7 +12,7 @@ block content
     - if (newform) 
         - var SubmitPath = '/newItem'
 
-    h1 #{EntityName}ID : #{Item.ID}
+    h1 #{EntityName} : #{Item.Name}
     form(method='POST' action=SubmitPath enctype='application/json')
         table
             input(type="hidden" name="ID" value=Item.ID)
@@ -24,6 +24,19 @@ block content
                         label(type="text") #{Item.Name}
                     else
                         input(type="text", placeholder="Example: Swimming", name="Name", value = Item.Name, readonly = readonly)
+            tr
+                td(class="label_box")
+                    label(for="CategoryID")  Category Name
+                td
+                    if(readonly)
+                        label(type="text") #{Item.Category.Name}
+                    else
+                        select(name="CategoryID")
+                            each Category in Categorys
+                                option(value = Category.ID selected=Item.Category.ID == Category.ID) #{Category.Name}
+
+
+    
 
         if(!readonly)
             if(!newform)

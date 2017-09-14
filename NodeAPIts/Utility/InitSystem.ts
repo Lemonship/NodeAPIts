@@ -7,7 +7,11 @@ import { task } from "../DAL/Entity/TaskEntity";
 import "reflect-metadata";
 
 const DevelopmentDB: DBSetting = new DBSetting("mssql", "localhost", 1433, "Development", "P@ssw0rd", "Development");
-export const ORM = new DBORM(DevelopmentDB, false);
+export const ORM = new DBORM(DevelopmentDB, true);
+export async function InitSystem() {
+    await ORM.InitConnection();
+    await InitTable()
+}
 export async function InitTable(){
     var ItemList;
     var List: category[];

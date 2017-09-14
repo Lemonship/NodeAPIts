@@ -18,6 +18,14 @@ class DBORM {
         this._DBSetting = DBSetting;
         this._CodeFirst = CodeFirst;
     }
+    IsConnected() {
+        var _Connected = false;
+        if (this._Connection == undefined)
+            _Connected = false;
+        else
+            _Connected = this._Connection.isConnected;
+        return _Connected;
+    }
     async OpenConnection() {
         var _Connect = false;
         if (this._Connection == undefined)
@@ -79,88 +87,100 @@ class DBORM {
         return Result;
     }
     ;
+    async InitConnection() {
+        try {
+            await this.OpenConnection();
+            await this._Connection.close();
+            this._CodeFirst = false;
+        }
+        catch (error) {
+            this._CodeFirst = false;
+        }
+    }
+    async CloseConnection() {
+        await this._Connection.close();
+    }
+    Query(Entity) {
+        let Query = this._Connection.getRepository(Entity).createQueryBuilder(Entity.ClassName);
+        return Query;
+    }
     async GetList(instance) {
-        await this.OpenConnection();
+        var _Connected = this.IsConnected();
+        if (!_Connected)
+            await this.OpenConnection();
         let Repository = this._Connection.getRepository(instance.constructor.name);
         var Result = await Repository.find();
-        await this._Connection.close();
-        //var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
-        //    return tResult;
-        //});
+        if (!_Connected)
+            await this._Connection.close();
         return Result;
     }
-    //async GetList<T extends Entities>(instance: T): Promise<T[]> {
-    //    var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
-    //        var tResult = await Repository.find();
-    //        return tResult;
-    //    });
-    //    return Result;
-    //}
     async GetByID(instance, ID) {
-        await this.OpenConnection();
+        var _Connected = this.IsConnected();
+        if (!_Connected)
+            await this.OpenConnection();
         let Repository = this._Connection.getRepository(instance.constructor.name);
         var Result = await Repository.findOneById(ID);
-        await this._Connection.close();
-        //var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
-        //    var tResult = await Repository.findOneById(ID);
-        //    return tResult;
-        //});
+        if (!_Connected)
+            await this._Connection.close();
         return Result;
     }
     async ExistID(instance, ID) {
-        await this.OpenConnection();
+        var _Connected = this.IsConnected();
+        if (!_Connected)
+            await this.OpenConnection();
         let Repository = this._Connection.getRepository(instance.constructor.name);
         var oResult = await Repository.findOneById(ID);
         var bResult = (oResult != undefined);
-        await this._Connection.close();
+        if (!_Connected)
+            await this._Connection.close();
         return bResult;
-        //var Result = await this.ORM(instance, async (Repository: Repository<T>) => {
-        //    var oResult = await Repository.findOneById(ID);
-        //    var bResult = (oResult != undefined)
-        //    return bResult;
-        //});
-        //return Result;
     }
     async Save(instance) {
-        await this.OpenConnection();
+        var _Connected = this.IsConnected();
+        if (!_Connected)
+            await this.OpenConnection();
         let Repository = this._Connection.getRepository(instance.constructor.name);
         await Repository.save(instance);
-        await this._Connection.close();
-        //await this.ORM(instance, async function (Repository: Repository<T>) {
-        //    await Repository.save(instance);
-        //});
+        if (!_Connected)
+            await this._Connection.close();
+    }
+    async Update(instance) {
+        var _Connected = this.IsConnected();
+        if (!_Connected)
+            await this.OpenConnection();
+        let Repository = this._Connection.getRepository(instance.constructor.name);
+        await Repository.
+        if (!_Connected)
+            await this._Connection.close();
     }
     async SaveList(instances) {
+        var _Connected = this.IsConnected();
         if (instances.length > 0) {
-            await this.OpenConnection();
+            if (!_Connected)
+                await this.OpenConnection();
             let Repository = this._Connection.getRepository(instances[0].constructor.name);
             await Repository.persist(instances);
-            await this._Connection.close();
-            //await this.ORM(instances[0], async function (Repository: Repository<T>) {
-            //    await Repository.persist(instances);
-            //    //instances.forEach(async instance => {
-            //    //    await Repository.save(instance);
-            //    //});
-            //});
+            if (!_Connected)
+                await this._Connection.close();
         }
     }
     async Delete(instance) {
-        await this.OpenConnection();
+        var _Connected = this.IsConnected();
+        if (!_Connected)
+            await this.OpenConnection();
         let Repository = this._Connection.getRepository(instance.constructor.name);
         await Repository.remove(instance);
-        await this._Connection.close();
-        //await this.ORM(instance, async function (Repository: Repository<T>) {
-        //    await Repository.remove(instance);
-        //});
+        if (!_Connected)
+            await this._Connection.close();
     }
     async DeleteByID(instance, ID) {
-        await this.OpenConnection();
+        var _Connected = this.IsConnected();
+        if (!_Connected)
+            await this.OpenConnection();
         let Repository = this._Connection.getRepository(instance.constructor.name);
         await Repository.removeById(ID);
-        await this._Connection.close();
-        //await this.ORM(instance, async function (Repository: Repository<T>) {
-        //    await Repository.removeById(ID);
-        //});
+        if (!_Connected)
+            await this._Connection.close();
     }
 }
 exports.DBORM = DBORM;

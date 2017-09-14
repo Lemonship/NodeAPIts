@@ -19,8 +19,9 @@ let activity = class activity {
     }
 };
 activity.EntityName = "Activity";
+activity.ClassName = "activity";
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn("int"),
+    typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], activity.prototype, "ID", void 0);
 __decorate([
@@ -29,12 +30,13 @@ __decorate([
 ], activity.prototype, "Name", void 0);
 __decorate([
     typeorm_1.ManyToOne(type => CategoryEntity_1.category, Category => Category.ID),
+    typeorm_1.JoinColumn({ name: "CategoryID" }),
     __metadata("design:type", CategoryEntity_1.category)
 ], activity.prototype, "Category", void 0);
 __decorate([
     typeorm_1.OneToMany(type => TaskEntity_1.task, Task => Task.ID),
     __metadata("design:type", Array)
-], activity.prototype, "Task", void 0);
+], activity.prototype, "Tasks", void 0);
 activity = __decorate([
     typeorm_1.Entity(),
     __metadata("design:paramtypes", [])

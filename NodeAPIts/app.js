@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
     });
 });
 // Init System
-InitSystem_1.InitTable().then(Result => {
+InitSystem_1.InitSystem().then(Result => {
     app.set('port', process.env.PORT || 3000);
     var server = app.listen(app.get('port'), function () {
         debug('Express server listening on port ' + server.address().port);

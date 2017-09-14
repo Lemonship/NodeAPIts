@@ -7,7 +7,7 @@ import ActivityController from './routes/ActivityController';
 import users from './routes/UserAPI';
 import api from './routes/api';
 
-import { InitTable } from './Utility/InitSystem'
+import { InitSystem } from './Utility/InitSystem'
 
 var app = express();
 
@@ -64,7 +64,7 @@ app.use((err: any, req, res, next) => {
 
 
 // Init System
-InitTable().then(Result => {
+InitSystem().then(Result => {
     app.set('port', process.env.PORT || 3000);
     var server = app.listen(app.get('port'), function () {
         debug('Express server listening on port ' + server.address().port);

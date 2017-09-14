@@ -19,6 +19,7 @@ let category = class category {
     }
 };
 category.EntityName = "Category";
+category.ClassName = "category";
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
@@ -30,7 +31,7 @@ __decorate([
 __decorate([
     typeorm_1.OneToMany(type => ActivityEntity_1.activity, Activity => Activity.ID),
     __metadata("design:type", Array)
-], category.prototype, "Activity", void 0);
+], category.prototype, "Activitys", void 0);
 category = __decorate([
     typeorm_1.Entity(),
     __metadata("design:paramtypes", [String])
