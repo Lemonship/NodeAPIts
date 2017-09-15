@@ -135,7 +135,7 @@ class DBORM {
             await this._Connection.close();
         return bResult;
     }
-    async Save(instance) {
+    async Update(instance) {
         var _Connected = this.IsConnected();
         if (!_Connected)
             await this.OpenConnection();
@@ -144,12 +144,12 @@ class DBORM {
         if (!_Connected)
             await this._Connection.close();
     }
-    async Update(instance) {
+    async Save(instance) {
         var _Connected = this.IsConnected();
         if (!_Connected)
             await this.OpenConnection();
         let Repository = this._Connection.getRepository(instance.constructor.name);
-        await Repository.
+        await Repository.save(instance);
         if (!_Connected)
             await this._Connection.close();
     }

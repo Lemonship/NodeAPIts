@@ -1,54 +1,23 @@
-﻿extends layout
-block layoutvariable
-  - var title = `${EntityName}: ${Item.Name}`
-block content
-    -function FormatDate(date){
-        -var d = date;
-        -var time = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2) + " " + ('0' + d.getHours()).slice(-2) + ":" + ('0' + d.getMinutes()).slice(-2) + ":" + ('0' + d.getSeconds()).slice(-2);
-        -return time;
-    -}
-    - var btnLabel = 'Submit'
-    - var SubmitPath = `/${Item.ID}`
-    - if (newform) 
-        - var SubmitPath = '/newItem'
-
-    h1 #{EntityName} : #{Item.Name}
-    form(method='POST' action=SubmitPath enctype='application/json')
-        table
-            input(type="hidden" name="ID" value=Item.ID)
-            tr
-                td(class="label_box")
-                    label(for="Name")  #{EntityName} Name
-                td
-                    if(readonly)
-                        label(type="text") #{Item.Name}
-                    else
-                        input(type="text", placeholder="Example: Swimming", name="Name", value = Item.Name, readonly = readonly)
-            tr
-                td(class="label_box")
-                    label(for="CategoryID")  Category Name
-                td
-                    if(readonly)
-                        label(type="text") #{Item.Category.Name}
-                    else
-                        select(name="CategoryID")
-                            each Category in Categorys
-                                option(value = Category.ID selected=Item.Category.ID == Category.ID) #{Category.Name}
-
-
-    
-
-        if(!readonly)
-            if(!newform)
-                button(id="Update", name="submit", type="submit", value="put") Update
-                | 
-                button(id="Delete", name="submit", type="submit", value="delete") Delete
-                | 
+﻿extends EntityItem
+block fields
+ 
+    input(type="hidden" name="ID" value=Item.ID)
+    tr
+        td(class="label_box")
+            label(for="Name")  #{EntityName} Name
+        td
+            if(readonly)
+                label(type="text") #{Item.Name}
             else
-                button(id="Post", name="submit", type="submit", value="post") Create
-
-        a(href="../")
-            button(id="back", name="back", type="button") Back
-
-  
+                input(type="text", placeholder="Example: Swimming", name="Name", value = Item.Name, readonly = readonly)
+    tr
+        td(class="label_box")
+            label(for="CategoryID")  Category Name
+        td
+            if(readonly)
+                label(type="text") #{Item.Category.Name}
+            else
+                select(name="CategoryID")
+                    each Category in Categorys
+                        option(value = Category.ID selected=Item.Category.ID == Category.ID) #{Category.Name}
 

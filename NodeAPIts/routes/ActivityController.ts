@@ -20,8 +20,8 @@ router.get('/', async (req: express.Request, res: express.Response) => {
     //var Entity: Repository<activity> = await ORM.GetEntity<activity>(EntityClass);
 
     await ORM.OpenConnection();
-    var Query: SelectQueryBuilder<activity> = ORM.Query<activity>(EntityClass);
-    var _ItemList = await Query.innerJoinAndSelect("activity.Category", "category").getMany();
+    var Query = ORM.Query(EntityClass);
+    var _ItemList = await Query.leftJoinAndSelect("activity.Category", "category").getMany();
     await ORM.CloseConnection();
     res.render(ListViewName, { EntityName: EntityClass.EntityName, DataList: _ItemList});
 });
@@ -53,7 +53,7 @@ router.route('/:ID') // 輸入id當作參數
         //Put, Post, Delete
         var Query = ORM.Query(EntityClass);
         var Method: string = req.body.submit;
-        var _instance = new activity();
+        var _instance = new EntityClass();
         if (Method == undefined)
             res.json({ "Message": "Method Error" });
         else if (Method.toLowerCase() == "post") {
@@ -65,7 +65,7 @@ router.route('/:ID') // 輸入id當作參數
         if (ExistID) 
             _instance = await ORM.GetByID(_instance, _instance.ID);
         if (_instance.ID == undefined && (Method.toLowerCase() != "post"))
-            res.json({ "Message": "Invalid " + activity.EntityName + " ID" });
+            res.json({ "Message": "Invalid " + EntityClass.EntityName + " ID" });
         else if (ExistID && (Method.toLowerCase() == "post"))
             res.json({ "Message": EntityClass.EntityName + " Exist" });
         else if (!ExistID && (Method.toLowerCase() != "post"))
@@ -74,29 +74,25 @@ router.route('/:ID') // 輸入id當作參數
             await ORM.OpenConnection();
             await Query.delete().whereInIds([_instance.ID]).execute();
             await ORM.CloseConnection();
-            //await ORM.DeleteByID(_instance, _instance.ID);
             res.redirect('../')
         }
         else{
             _instance.Name = req.body.Name;
-            var Category = await ORM.GetByID(new category(), req.body.CategoryID);
-            _instance.Category = Category;
-            
-            
+            _instance.Category = req.body.CategoryID;
             await ORM.OpenConnection();
             if (ExistID) {
                 var _CategoryID = parseInt(req.body.CategoryID);
-                await Query.update().set({ Name: _instance.Name, CategoryID: _instance.Category.ID }).whereInIds([_instance.ID]).execute();
+                await Query.update().set({ Name: _instance.Name, Category: _instance.Category }).whereInIds([_instance.ID]).execute();
                 var _responseitem = await Query.leftJoinAndSelect("activity.Category", "category").whereInIds([req.params.ID]).getOne();
-                await ORM.CloseConnection();
+                
                 res.render(ItemViewName, { EntityName: EntityClass.EntityName, Item: _responseitem, readonly: true, newform: false });
             }
             else {
-                await ORM.Save(_instance);
+                await Query.insert().into(EntityClass).values(_instance).execute();
+                
                 res.redirect('../')
             }
-                //await Query.insert().into(category).values(_instance).execute();
-
+            await ORM.CloseConnection();
         }
     })
 export default router;
